@@ -5,10 +5,6 @@ class SampleApp < Sinatra::Base
 
   helpers do
 
-    def etcd_url
-      "etcd:2379"
-    end
-
     def etcd
       Etcd.client(
         host: 'etcd',
@@ -19,13 +15,14 @@ class SampleApp < Sinatra::Base
   end
 
   get '/' do
-    "Key '/sample/time' on #{etcd_url} is: #{etcd.get('/sample/time').value}"
+    value = etcd.get('/sample/time').value rescue 'n/a'
+    "\n\nKey '/sample/time' value is set to '#{value}'\n\n"
   end
 
   get '/set' do
     current_time = Time.now.to_s
     etcd.set('/sample/time', value: current_time)
-    "Key '/sample/time' on #{etcd_url} set to #{current_time}"
+    "\n\nThe value of '/sample/time' is '#{current_time}'\n\n"
   end
 
 end
