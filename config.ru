@@ -6,13 +6,13 @@ class SampleApp < Sinatra::Base
   helpers do
 
     def etcd_url
-      "#{ENV['ETCD_SERVICE_HOST']}:#{ENV['ETCD_SERVICE_PORT']}"
+      "etcd:2379"
     end
 
     def etcd
       Etcd.client(
-        host: ENV['ETCD_SERVICE_HOST'],
-        port: ENV['ETCD_SERVICE_PORT']
+        host: 'etcd',
+        port: '2379'
       )
     end
 
